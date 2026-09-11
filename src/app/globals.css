@@ -1,0 +1,209 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Fraunces", "Georgia", "Times New Roman", serif;
+  --font-sans: "Inter", "system-ui", "-apple-system", "Segoe UI", sans-serif;
+
+  /* Deep forest greens */
+  --color-forest-950: #0e2419;
+  --color-forest-900: #143324;
+  --color-forest-800: #1b4332;
+  --color-forest-700: #245c3f;
+  --color-forest-600: #2d6a4f;
+  --color-forest-500: #40916c;
+  --color-forest-100: #d8e2dc;
+  --color-forest-50: #eef4ef;
+
+  /* Warm saddle browns */
+  --color-saddle-900: #4a2c17;
+  --color-saddle-800: #5c3a21;
+  --color-saddle-700: #7f5539;
+  --color-saddle-600: #9c6644;
+  --color-saddle-500: #b08968;
+  --color-saddle-200: #ddb892;
+  --color-saddle-100: #ede0d4;
+  --color-saddle-50: #faf3eb;
+
+  /* Creams + charcoal */
+  --color-cream: #fdfbf6;
+  --color-parchment: #f6f1e7;
+  --color-sand: #efe7d7;
+  --color-charcoal: #1c1a16;
+  --color-ink: #2b2925;
+  --color-stone-warm: #6b645a;
+
+  --color-gold: #b7791f;
+  --color-gold-soft: #f3e5c3;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Accessible focus */
+:focus-visible {
+  outline: 3px solid var(--color-forest-600);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 100;
+  background: var(--color-forest-900);
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0 0 0.5rem 0.5rem;
+  font-weight: 600;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* Subtle fade-in-up on scroll. No layout shift: uses opacity + transform only,
+   elements reserve space via min-height where needed. */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Card hover lift — subtle, no layout shift */
+.lift {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+.lift:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 28px -12px rgba(27, 67, 50, 0.28),
+    0 2px 6px rgba(28, 26, 22, 0.08);
+}
+
+/* Modal transitions */
+.modal-backdrop {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.modal-backdrop[data-open="true"] {
+  opacity: 1;
+}
+.modal-panel {
+  opacity: 0;
+  transform: translateY(10px) scale(0.985);
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
+}
+.modal-backdrop[data-open="true"] .modal-panel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Mobile drawer */
+.drawer {
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.drawer[data-open="true"] {
+  transform: translateX(0);
+}
+
+/* Dropdown */
+.dropdown-panel {
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+.dropdown-panel[data-open="true"] {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Serif display helpers */
+.display-serif {
+  font-family: var(--font-serif);
+  font-optical-sizing: auto;
+  letter-spacing: -0.015em;
+}
+
+/* Ruled divider — equestrian stationery feel */
+.rule-double {
+  border-top: 3px double var(--color-saddle-200);
+}
+
+/* Leaflet overrides to match palette */
+.leaflet-container {
+  font-family: var(--font-sans);
+  border-radius: 0.75rem;
+  z-index: 1;
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 0.625rem;
+  border: 1px solid var(--color-sand);
+}
+.leaflet-popup-content {
+  margin: 0.85rem 1rem;
+  line-height: 1.45;
+}
+
+/* Prose for news / trail bodies */
+.cea-prose p {
+  margin-bottom: 1rem;
+  line-height: 1.75;
+  color: var(--color-ink);
+}
+.cea-prose p:last-child {
+  margin-bottom: 0;
+}
+
+/* Custom scrollbar for admin tables */
+.nice-scroll::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+.nice-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-saddle-200);
+  border-radius: 8px;
+}
